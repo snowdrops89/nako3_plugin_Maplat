@@ -1,6 +1,6 @@
 ﻿/**
  * なでしこ3 Maplatプラグイン
- * Plugin_Maplat ver 0.9
+ * Plugin_Maplat ver 0.9.0.1
  * 古地図ビューアライブラリMaplatを、なでしこv3で使うためのプラグイン
  * ・Maplat(https://github.com/code4history/Maplat/wiki)
  * ・なでしこ(https://nadesi.com/)
@@ -152,20 +152,32 @@ const PluginMaplat = {
   // @描画
   'Maplat線色': {type: 'var', value: '#000000'}, // @Maplatせんいろ
   'Maplat線太': {type: 'var', value: 2}, // @Maplatせんふとさ
-  'Maplat線種類': {type: 'var', value: '実線'}, // @Maplatせんしゅるい
+  'Maplat線種類': {type: 'var', value: ''}, // @Maplatせんしゅるい
   '線引': { // @lnglatsの座標配列を指定して地図上に線を引く。 // @せんひく
     type: 'func',
     josi: [['の','で']],
     fn: function (lnglats, sys) {
-      var lineData
-      lineData = {
+      var w = sys.__v0['Maplat線太']
+      var lineData = {
         "lnglats": lnglats,
         "stroke": {
-          "lineCap": "butt",
-          "lineDash": [] ,
+          "lineCap": "round",
           "color": sys.__v0['Maplat線色'],
           "width": sys.__v0['Maplat線太']
         }
+      }
+      if (sys.__v0['Maplat線種類'] == "点線") {
+        lineData["stroke"]["lineCap"]="butt"
+        lineData["stroke"]["lineDash"]=[2*w, 2*w, 2*w, 2*w]
+      } else if (sys.__v0['Maplat線種類'] == "破線") {
+        lineData["stroke"]["lineCap"]="butt"
+        lineData["stroke"]["lineDash"]=[4*w, 2*w, 4*w, 2*w]
+      } else if (sys.__v0['Maplat線種類'] == "一点鎖線") {
+        lineData["stroke"]["lineCap"]="butt"
+        lineData["stroke"]["lineDash"]=[6*w, 2*w, 2*w, 2*w]
+      } else if  (sys.__v0['Maplat線種類'] == "丸点線") {
+        lineData["stroke"]["lineCap"]="round"
+        lineData["stroke"]["lineDash"]=[1, 2*w, 1, 2*w]
       }
       sys.__v0['MaplatApp'].addLine(lineData)
     }
