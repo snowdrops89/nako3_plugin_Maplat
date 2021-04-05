@@ -62,7 +62,7 @@ const PluginMaplat = {
   },
 
   // @地図変更
-  '表示地図変更': { // @表示状態の地図をmapIDに変更する。 // @ひょうじちずへんこう
+  '地図変更': { // @表示状態の地図をmapIDに変更する。 // @ちずへんこう
     type: 'func',
     josi: [['に', 'へ']],
     fn: function (mapID, sys) {
