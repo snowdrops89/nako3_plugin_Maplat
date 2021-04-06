@@ -1,6 +1,6 @@
 ﻿/**
  * なでしこ3 Maplatプラグイン
- * Plugin_Maplat ver 0.9.0.1
+ * Plugin_Maplat ver 0.9.0.1_3
  * 古地図ビューアライブラリMaplatを、なでしこv3で使うためのプラグイン
  * ・Maplat(https://github.com/code4history/Maplat/wiki)
  * ・なでしこ(https://nadesi.com/)
@@ -150,6 +150,7 @@ const PluginMaplat = {
   },
 
   // @描画
+  'Maplat塗色': {type: 'var', value: 'rgba(0,0,0,.5)'}, // @Maplatぬりいろ
   'Maplat線色': {type: 'var', value: '#000000'}, // @Maplatせんいろ
   'Maplat線太': {type: 'var', value: 2}, // @Maplatせんふとさ
   'Maplat線種類': {type: 'var', value: ''}, // @Maplatせんしゅるい
@@ -183,6 +184,40 @@ const PluginMaplat = {
         }
       }
       sys.__v0['MaplatApp'].addLine(lineData)
+    }
+  },
+  'ポリゴン描画': { // @lnglatsの座標配列を指定しPolygonを描画。 // @ぽりごんびょうが
+    type: 'func',
+    josi: [['の', 'を', 'で']],
+    fn: function (drawData,sys) {
+      //drawDataがただの配列だったらlnglatsと判断
+      if(Object.prototype.toString.call(drawData) === '[object Array]'){
+        drawData = {
+          "type": "Polygon",
+          "lnglats": drawData,
+          "style": {
+            "stroke": {
+              "color": sys.__v0['Maplat線色'],
+              "width": sys.__v0['Maplat線太']
+            },
+            "fill":{
+              "color": sys.__v0['Maplat塗色']
+            }
+          }
+        }
+      }
+      sys.__v0['MaplatApp'].addVector(drawData)
+    }
+  },
+  '面塗': { // @外枠と内枠をlnglatsで指定し範囲内を塗る（ポリゴン描画する）。内枠と外枠は順不同。内枠は省略可 // @めんぬる
+    type: 'func',
+    josi: [['の','を','で'],['と']],
+    fn: function (A, B, sys) {
+      var drawData
+      if (B == null) {
+        drawData = [A]
+      } else drawData = [A,B]
+      sys.__exec('ポリゴン描画', [drawData, sys])
     }
   },
   '線消': { // @地図線描画で描画した線を全て消去する。 // @せんけす
