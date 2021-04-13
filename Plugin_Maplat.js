@@ -1,6 +1,6 @@
 ﻿/**
  * なでしこ3 Maplatプラグイン
- * Plugin_Maplat ver 0.9.0.1_3
+ * Plugin_Maplat ver 0.9.0_1.4
  * 古地図ビューアライブラリMaplatを、なでしこv3で使うためのプラグイン
  * ・Maplat(https://github.com/code4history/Maplat/wiki)
  * ・なでしこ(https://nadesi.com/)
@@ -154,6 +154,21 @@ const PluginMaplat = {
   'Maplat線色': {type: 'var', value: '#000000'}, // @Maplatせんいろ
   'Maplat線太': {type: 'var', value: 2}, // @Maplatせんふとさ
   'Maplat線種類': {type: 'var', value: ''}, // @Maplatせんしゅるい
+  '点打': { // @lnglatの座標を指定して地図上に点を打つ。 // @てんうつ
+    type: 'func',
+    josi: [['に','へ']],
+    fn: function (lnglat, sys) {
+      point = {
+        "lnglats": [lnglat,lnglat],
+        "stroke": {
+          "lineCap": "round",
+          "color": sys.__v0['Maplat線色'],
+          "width": sys.__v0['Maplat線太']
+        }
+      }
+      sys.__v0['MaplatApp'].addLine(point)
+    }
+  },
   '線引': { // @lnglatsの座標配列を指定して地図上に線を引く。 // @せんひく
     type: 'func',
     josi: [['の','で']],
