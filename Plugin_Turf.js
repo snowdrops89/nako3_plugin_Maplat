@@ -22,7 +22,8 @@ const PluginTurf = {
     type: 'func',
     josi: [['の', 'で']],
     fn: function (lnglats, sys) {
-      var polygon = turf.helpers.polygon([lnglats]);
+      if (lnglats[0][0][0] == undefined) {lnglats = [lnglats]}
+      var polygon = turf.helpers.polygon(lnglats);
       return turf.area(polygon);
     }
   },
@@ -51,7 +52,8 @@ const PluginTurf = {
     type: 'func',
     josi: [['の', 'で']],
     fn: function (lnglats, sys) {
-      var polygon = turf.helpers.points(lnglats);
+      if (lnglats[0][0][0] == undefined) {lnglats = [lnglats]}
+      var polygon = turf.helpers.polygon(lnglats);
       var centroid = turf.centroid(polygon);
       return centroid.geometry.coordinates;
     }
