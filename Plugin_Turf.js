@@ -33,8 +33,7 @@ const PluginTurf = {
     fn: function (p1, p2, sys) {
       p1 = turf.helpers.point(p1);
       p2 = turf.helpers.point(p2);
-      bearing = turf.bearing(p1, p2);
-      return bearing;
+      return turf.bearing(p1, p2);
     }
   },
   // @中心点(center,helpers)
@@ -43,7 +42,7 @@ const PluginTurf = {
     josi: [['の', 'で']],
     fn: function (lnglats, sys) {
       var features = turf.helpers.points(lnglats);
-      center = turf.center(features);
+      var center = turf.center(features);
       return center.geometry.coordinates;
     }
   },
@@ -53,7 +52,7 @@ const PluginTurf = {
     josi: [['の', 'で']],
     fn: function (lnglats, sys) {
       var polygon = turf.helpers.points(lnglats);
-      centroid = turf.centroid(polygon);
+      var centroid = turf.centroid(polygon);
       return centroid.geometry.coordinates;
     }
   },
