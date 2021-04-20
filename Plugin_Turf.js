@@ -93,7 +93,10 @@ const PluginTurf = {
         var nodes = turf.explode(line);
         return nodes.features[0].geometry.coordinates;
       });
-      return points
+      if (lnglats[0].toString() != lnglats[lnglats.length-1].toString()) {
+        points.push(lnglats[lnglats.length-1]);
+      }
+      return points;
     }
   }
 }
